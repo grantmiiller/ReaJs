@@ -1,7 +1,7 @@
 {
   "name": "Rea.js",
   "version": "0.0.9",
-  "main": "rea.js",
+  "main": "src/rea.js",
   "ignore": [
     ".jshintrc",
     "**/*.txt",
