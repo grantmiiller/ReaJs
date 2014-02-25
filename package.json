@@ -1,0 +1,19 @@
+{
+  "name": "Rea.Js",
+  "version": "0.0.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grantmiiller/ReaJs.git"
+  },
+
+  "dependencies": {
+      "grunt": "0.4.x",
+      "grunt-contrib-watch": "0.4.x",
+      "grunt-contrib-jshint": "0.6.x",
+      "grunt-contrib-uglify": "0.2.x"
+  },
+
+  "devDependencies": {
+      "grunt-mocha": "0.3.x"
+  }
+}
