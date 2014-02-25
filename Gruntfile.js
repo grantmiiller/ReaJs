@@ -5,8 +5,9 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     jshint: {
-      files: ['src/rea.js'],
+      files: ['rea.js'],
       options: {
+        boss: true,
         smarttabs: true,
         globals: {
             window: true,
@@ -18,7 +19,7 @@ module.exports = function(grunt) {
     uglify: {
         my_target: {
           files: {
-              'src/rea.min.js': 'src/rea.js'
+              'rea.min.js': 'rea.js'
           },
           options: {
               banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
