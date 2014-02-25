@@ -64,10 +64,10 @@
         viewportSize        = window.innerWidth;
    
     function checkViewPort(key) {
-      if(breakpoints[key].min < viewportSize) {
+      if(breakpoints[key].min <= viewportSize) {
 
         if(breakpoints[key].max) {
-          if( breakpoints[key].max > viewportSize ) {
+          if( breakpoints[key].max >= viewportSize ) {
             return true;
           }
         } else {
@@ -75,7 +75,7 @@
         }
       }
 
-      if(breakpoints[key].max && !breakpoints[key].min && breakpoints[key].max > viewportSize) {
+      if(breakpoints[key].max && !breakpoints[key].min && breakpoints[key].max >= viewportSize) {
         return true;
       }
 
