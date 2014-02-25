@@ -15,6 +15,22 @@
   Reajs.onBreakpoint('tablet', function(derp) {
     console.log(derp);
   }, null, "weenus");
+
+  Reajs.onBreakpoint('desktop', function(herp) {
+    console.log('On Desktop' + herp);
+  }, null, "Woo");
+
+  function Car() {
+    this.goes = "honk honk";
+
+    this.say = function(derp) {
+      console.log("Car says " + derp + ": " + this.goes);
+    };
+  }
+
+  var myCar = new Car();
+
+  Reajs.onBreakpoint('mobile', myCar.say, myCar, 'blarg');
 </script>
 </body>
 </html>

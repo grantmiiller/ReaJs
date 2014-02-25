@@ -152,7 +152,9 @@
           callbacks : []
         };
 
-        checkViewPort(key);
+        if(checkViewPort(key)) {
+          addActiveBreakpoint(key);
+        }
 
         return this;
       },
