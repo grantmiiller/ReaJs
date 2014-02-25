@@ -6,6 +6,9 @@
     ".jshintrc",
     "**/*.txt",
     "test.html",
-    "README.md"
+    "README.md",
+    "node_modules/",
+    "package.json",
+    "Gruntfile.js"
   ]
 }
