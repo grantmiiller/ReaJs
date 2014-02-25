@@ -1,12 +1,11 @@
 {
   "name": "Rea.js",
   "version": "0.0.9",
-  "main": "src/rea.js",
+  "main": "rea.js",
   "ignore": [
     ".jshintrc",
     "**/*.txt",
     "test.html",
-    "README.md",
     "node_modules/",
     "package.json",
     "Gruntfile.js"
