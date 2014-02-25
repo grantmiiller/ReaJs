@@ -1,6 +1,6 @@
 {
   "name": "Rea.js",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "rea.js",
   "ignore": [
     ".jshintrc",
