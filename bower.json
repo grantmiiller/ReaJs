@@ -1,0 +1,11 @@
+{
+  "name": "Rea.js",
+  "version": "0.0.5",
+  "main": "rea.js",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt",
+    "test.html",
+    "README.md"
+  ]
+}

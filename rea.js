@@ -19,11 +19,7 @@
 
 
 (function(undefined) {
-  // Check for TNY global namespace
-  if(!window.TNY) { window.TNY  =   {}; }
-  var TNY = window.TNY;
-
-  TNY.reajs = (function () {
+  var Reajs = (function () {
    
     var breakpoints = {},
         noop        = function(){},
@@ -101,9 +97,7 @@
 
 
   })();
+  
+  window.Reajs = Reajs;
 
 })();
-
-TNY.reajs.addBreakpoint('desktop', {min: 851});
-TNY.reajs.addBreakpoint('tablet', {min: 601, max: 850});
-TNY.reajs.addBreakpoint('mobile', {max: 600});
