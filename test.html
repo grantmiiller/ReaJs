@@ -11,6 +11,10 @@
   Reajs.addBreakpoint('desktop', {min: 851});
   Reajs.addBreakpoint('tablet', {min: 601, max: 850});
   Reajs.addBreakpoint('mobile', {max: 600});
+
+  Reajs.onBreakpoint('tablet', function(derp) {
+    console.log(derp);
+  }, null, "weenus");
 </script>
 </body>
 </html>
