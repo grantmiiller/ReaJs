@@ -76,3 +76,42 @@ Example:
   // outputs: "Car says hello: honk honk"
 ```
 
+`Reajs.getBreakpoints` - Returns an array of breakpoints
+
+Example:
+```
+  Reajs.addBreakpoint('desktop', {min: 851});
+  Reajs.addBreakpoint('tablet', {min: 601, max: 850});
+  Reajs.addBreakpoint('mobile', {max: 600});
+
+  console.log(Reajs.getBreakpoints());
+
+  //outputs: ['desktop', 'tablet', 'mobile']
+```
+
+`Reajs.fireCallbacks` - Fires all callbacks of breakpoint, even if not in breakpoint
+  - Parameters
+    - key : {string} - Name of the breakpoint
+
+Example:
+```
+  Reajs.fireCallbacks('tablet');
+```
+
+`Reajs.checkViewport` - Checks if you are in the provided breakpoint and returns true if you are or false if not
+  - Parameters
+    - key : {string} - Name of the breakpoint
+
+Example:
+```
+  Reajs.addBreakpoint('tablet', {min: 601, max: 850});
+
+  // Browser window is 750
+
+  console.log(Reajs.checkViewPort('tablet'));
+
+  //outputs: true
+```
+
+`Reajs.forceViewportCheck` - Forces a check to see what the browser window width is
+

@@ -303,7 +303,7 @@
         }
       },
 
-      checkViewPort: checkViewPort,
+      checkViewport: checkViewport,
 
       forceViewportCheck: function() {
         viewportSize = window.innerWidth;
