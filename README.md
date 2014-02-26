@@ -16,16 +16,17 @@ Example:
   Reajs.addBreakpoint('mobile', {max: 600});
 ```
 
-`Reajs.onBreakpoint` - Adds a callback to the passed breakpoint
+`Reajs.registerCallback` - Adds a callback to the passed breakpoint
   - Paramters
     - key : {string|array} Name of the breakpoint(s) that the callback should fire when entering
+    - flags : @OPTIONAL {object} - Flags to pass, only 'continous' exists for now
     - callback : {function} The function to call when entering breakpoint
     - context : {object} The context to use in the function
     - Any extra parameters will be passed back to the function
 
 Example:
 ```
-  Reajs.onBreakpoint(Reajs.getBreakpoints(), function(input) {
+  Reajs.registerCallback(Reajs.getBreakpoints(), function(input) {
     console.log('On Desktop. ' + input);
   }, null, "Woo");
 
@@ -41,7 +42,7 @@ Example:
 
   var myCar = new Car();
 
-  Reajs.onBreakpoint(['mobile', 'tablet'], myCar.say, myCar, 'hello');
+  Reajs.registerCallback(['mobile', 'tablet'], myCar.say, myCar, 'hello');
 
   // outputs: "Car says hello: honk honk"
 ```

@@ -279,6 +279,7 @@
         }
       },
 
+      /* DEPRECATED */
       onBreakpoint: function(key, callback, context) {
         var args = Array.prototype.slice.call(arguments, 3);
 
