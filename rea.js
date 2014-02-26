@@ -303,7 +303,11 @@
         }
       },
 
-      checkViewPort: checkViewPort
+      checkViewPort: checkViewPort,
+
+      forceViewportCheck: function() {
+        viewportSize: window.innerWidth;
+      }
     };
 
 
