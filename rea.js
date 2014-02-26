@@ -365,7 +365,7 @@
   } else {
     global.Reajs = Reajs;
   }
-    return Reajs;
-  })(this);
+    
+  return Reajs;
 
 })(this);
