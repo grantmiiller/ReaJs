@@ -12,21 +12,23 @@
   Reajs.addBreakpoint('tablet', {min: 601, max: 850});
   Reajs.addBreakpoint('mobile', {max: 600});
 
-  Reajs.onBreakpoint(Reajs.getBreakpoints(), function(herp) {
+  Reajs.onBreakpoint('desktop', function(herp) {
     console.log('On Desktop' + herp);
   }, null, "Woo");
 
   function Car() {
     this.goes = "honk honk";
 
-    this.say = function(input) {
-      console.log("Car says " + input + ": " + this.goes);
+    this.say = function(input, input2) {
+      input2 = input2 || 'fail'
+      console.log("Car says " + input + input2 + ": " + this.goes);
     };
   }
 
   var myCar = new Car();
 
-  Reajs.onBreakpoint(['mobile', 'tablet'], myCar.say, myCar, 'hello');
+  Reajs.registerCallback('mobile', myCar.say, myCar, "crap", "blarg");
+  Reajs.registerCallback('tablet', {continuous: true}, myCar.say, myCar, 'Bien Venidos');
 </script>
 </body>
 </html>

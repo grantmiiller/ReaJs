@@ -1,7 +1,7 @@
 /*
 *   Rea.Js (Reagis, get it? Ha Ha Ha)
 *   @author     Grant Miiller
-*   @version    0.0.1
+*   @version    0.1.0
 *   @classDesc  Reactive JS
 *
 *   USAGE
@@ -11,14 +11,12 @@
 */
 
 /*
-*   RELEASE NOTES
-*   
-*   Version 0.1.1 - Grant Miiller
-*   -Initial setup of everything
+*   SPECIAL THANKS
+*   to John Mullanaphy (http://jo.mu) for telling me every little problem he has with my code
 */
 
 
-(function(undefined) {
+(function(global, undefined) {
 
   //START Polyfills
 
@@ -101,7 +99,7 @@
         console             = window.console || {"log": noop, "warn": noop, "error": noop},
         viewportSize        = window.innerWidth;
    
-    function checkViewPort(key) {
+    function checkViewport(key) {
       if(breakpoints[key].min <= viewportSize) {
 
         if(breakpoints[key].max) {
@@ -143,13 +141,25 @@
       return true;
     }
 
-    function fireCallbacks(key) {
+    function fireAllCallbacks(key) {
       var callbacks = breakpoints[key].callbacks,
           callback = null;
 
       for(var i = 0, len = callbacks.length; i < len; i++ ) {
         callback = callbacks[i];
         callback.func.apply(callback.context, callback.args);
+      }
+    }
+
+    function fireContinuousCallbacks(key) {
+      var callbacks = breakpoints[key].callbacks,
+          callback = null;
+
+      for(var i = 0, len = callbacks.length; i < len; i++ ) {
+        callback = callbacks[i];
+        if(callback.continuous) {
+          callback.func.apply(callback.context, callback.args);
+        }
       }
     }
 
@@ -160,11 +170,14 @@
 
       for(var key in breakpoints) {
 
-        if(checkViewPort(key)) {
+        if(checkViewport(key)) {
           if(!checkActiveBreakpoint(key)) {
             addActiveBreakpoint(key);
-            fireCallbacks(key);
+            fireAllCallbacks(key);
+          } else {
+            fireContinuousCallbacks(key);
           }
+
         } else {
           removeActiveBreakpoint(key);
         }
@@ -191,7 +204,7 @@
           callbacks : []
         };
 
-        if(checkViewPort(key)) {
+        if(checkViewport(key)) {
           addActiveBreakpoint(key);
         }
 
@@ -210,29 +223,60 @@
 
       registerCallback: function(key, flags, callback, context) {
 
-        // var temp, args;
+        var temp, args;
 
-        // if(!key || !callback) {
-        //   console.log( 'Please provide needed paramters' );
-        //   return false;
-        // }
+        if(!key || !callback) {
+          console.log( 'Please provide needed paramters' );
+          return false;
+        }
 
-        // if(!breakpoints[key]) {
-        //   console.log('Breakpoint does not exist');
-        //   return false;
-        // }
+        if(isFunction(flags)) {
+          args = Array.prototype.slice.call(arguments, 3);
+          temp = callback;
+          callback = flags;
+          context = temp;
+        } else {
+          args = Array.prototype.slice.call(arguments, 4);
+        }
 
-        // if(isFunction(flags)) {
-        //   temp = callback;
-        //   callback = flags;
-        //   context = temp;
-        //   args = Array.prototype.slice.call(arguments, 3);
-        // } else {
-        //   args = Array.prototype.slice.call(arguments, 4);
-        // }
+        context = context || null;
 
+        if(isArray(key)) {
 
+          var thisKey;
 
+          for(var i = 0, len = key.length; i < len; i++) {
+
+            thisKey = key[i];
+
+            if(!breakpoints[thisKey]) {
+              console.log('Breakpoint does not exist');
+              return false;
+            }
+
+            breakpoints[thisKey].callbacks.push({
+              func: callback,
+              context: context, 
+              args: args,
+              continuous: (flags && flags.continuous) ? flags.continuous : false
+            });
+
+          }
+        } else {
+
+          if(!breakpoints[key]) {
+            console.log('Breakpoint does not exist');
+            return false;
+          }
+
+          breakpoints[key].callbacks.push({
+            func: callback,
+            context: context, 
+            args: args,
+            continuous: (flags && flags.continuous) ? flags.continuous : false
+          }); 
+
+        }
       },
 
       onBreakpoint: function(key, callback, context) {
@@ -281,7 +325,7 @@
         }
       },
 
-      fireCallbacks: fireCallbacks,
+      fireCallbacks: fireAllCallbacks,
 
       fire: function(key, callback, context) {
         var args = Array.prototype.slice.call(arguments, 3);
@@ -298,7 +342,7 @@
 
         context = context || null;
 
-        if(checkViewPort(key)) {
+        if(checkViewport(key)) {
           callback.apply(context, args);
         }
       },
@@ -313,6 +357,14 @@
 
   })();
 
-  window.Reajs = Reajs;
+  if ( typeof define === 'function' && define.amd) {
+    define('reajs', [], function(){return Reajs;});
+  } else if (typeof exports !== 'undefined') {
+    exports.Reajs = Reajs;
+  } else {
+    global.Reajs = Reajs;
+  }
+    return Reajs;
+  })(this);
 
-})();
+})(this);
