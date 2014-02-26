@@ -19,14 +19,14 @@
   function Car() {
     this.goes = "honk honk";
 
-    this.say = function(derp) {
-      console.log("Car says " + derp + ": " + this.goes);
+    this.say = function(input) {
+      console.log("Car says " + input + ": " + this.goes);
     };
   }
 
   var myCar = new Car();
 
-  Reajs.onBreakpoint(['mobile', 'tablet'], myCar.say, myCar, 'blarg');
+  Reajs.onBreakpoint(['mobile', 'tablet'], myCar.say, myCar, 'hello');
 </script>
 </body>
 </html>
