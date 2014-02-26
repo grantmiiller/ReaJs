@@ -306,7 +306,7 @@
       checkViewPort: checkViewPort,
 
       forceViewportCheck: function() {
-        viewportSize: window.innerWidth;
+        viewportSize = window.innerWidth;
       }
     };
 
