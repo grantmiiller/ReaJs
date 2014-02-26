@@ -53,6 +53,14 @@
     };
   }
 
+  function isFunction(functionToCheck) {
+    var getType = {};
+    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+  }
+
+  function isArray(obj) {
+    return toString.call(obj) === "[object Array]";
+  }
 
   //addEventListener polyfill 1.0 / Eirik Backer / MIT Licence
   (function(win, doc){
@@ -129,7 +137,6 @@
     }
 
     function checkActiveBreakpoint(key) {
-      console.log(activeBreakpoints.indexOf(key));
       if(activeBreakpoints.indexOf(key) === -1 ) {
         return false;
       }
@@ -152,6 +159,7 @@
       viewportSize = window.innerWidth;
 
       for(var key in breakpoints) {
+
         if(checkViewPort(key)) {
           if(!checkActiveBreakpoint(key)) {
             addActiveBreakpoint(key);
@@ -161,6 +169,7 @@
           removeActiveBreakpoint(key);
         }
       }
+
     }, false);
 
     return {
@@ -189,7 +198,40 @@
         return this;
       },
 
+      getBreakpoints: function() {
+        var ret_bp = [];
+
+        for(var key in breakpoints) {
+          ret_bp.push(key);
+        }
+
+        return ret_bp;
+      },
+
       registerCallback: function(key, flags, callback, context) {
+
+        // var temp, args;
+
+        // if(!key || !callback) {
+        //   console.log( 'Please provide needed paramters' );
+        //   return false;
+        // }
+
+        // if(!breakpoints[key]) {
+        //   console.log('Breakpoint does not exist');
+        //   return false;
+        // }
+
+        // if(isFunction(flags)) {
+        //   temp = callback;
+        //   callback = flags;
+        //   context = temp;
+        //   args = Array.prototype.slice.call(arguments, 3);
+        // } else {
+        //   args = Array.prototype.slice.call(arguments, 4);
+        // }
+
+
 
       },
 
@@ -201,18 +243,42 @@
           return false;
         }
 
-        if(!breakpoints[key]) {
-          console.log('Breakpoint does not exist');
-          return false;
-        }
-
         context = context || null;
 
-        breakpoints[key].callbacks.push({
-          func: callback,
-          context: context, 
-          args: args
-        }); 
+        if(isArray(key)) {
+
+          var thisKey;
+
+          for(var i = 0, len = key.length; i < len; i++) {
+
+            thisKey = key[i];
+
+            if(!breakpoints[thisKey]) {
+              console.log('Breakpoint does not exist');
+              return false;
+            }
+
+            breakpoints[thisKey].callbacks.push({
+              func: callback,
+              context: context, 
+              args: args
+            });
+
+          }
+        } else {
+
+          if(!breakpoints[key]) {
+            console.log('Breakpoint does not exist');
+            return false;
+          }
+
+          breakpoints[key].callbacks.push({
+            func: callback,
+            context: context, 
+            args: args
+          }); 
+
+        }
       },
 
       fireCallbacks: fireCallbacks,

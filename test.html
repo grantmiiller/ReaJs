@@ -12,11 +12,7 @@
   Reajs.addBreakpoint('tablet', {min: 601, max: 850});
   Reajs.addBreakpoint('mobile', {max: 600});
 
-  Reajs.onBreakpoint('tablet', function(derp) {
-    console.log(derp);
-  }, null, "weenus");
-
-  Reajs.onBreakpoint('desktop', function(herp) {
+  Reajs.onBreakpoint(Reajs.getBreakpoints(), function(herp) {
     console.log('On Desktop' + herp);
   }, null, "Woo");
 
@@ -30,7 +26,7 @@
 
   var myCar = new Car();
 
-  Reajs.onBreakpoint('mobile', myCar.say, myCar, 'blarg');
+  Reajs.onBreakpoint(['mobile', 'tablet'], myCar.say, myCar, 'blarg');
 </script>
 </body>
 </html>
