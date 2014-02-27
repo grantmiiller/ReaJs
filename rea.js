@@ -151,6 +151,30 @@
       }
     }
 
+    function fireOffCallbacks(key) {
+      var callbacks = breakpoints[key].callbacks,
+          callback = null;
+
+      for(var i = 0, len = callbacks.length; i < len; i++ ) {
+        callback = callbacks[i];
+        if(callback.off) {
+          callback.func.apply(callback.context, callback.args);
+        }
+      }
+    }
+
+    function fireOnCallbacks(key) {
+      var callbacks = breakpoints[key].callbacks,
+          callback = null;
+
+      for(var i = 0, len = callbacks.length; i < len; i++ ) {
+        callback = callbacks[i];
+        if(!callback.off) {
+          callback.func.apply(callback.context, callback.args);
+        }
+      }
+    }
+
     function fireContinuousCallbacks(key) {
       var callbacks = breakpoints[key].callbacks,
           callback = null;
@@ -163,6 +187,17 @@
       }
     }
 
+    function pushCallback(key, flags, callback, context, args) {
+      breakpoints[key].callbacks.push({
+        func: callback,
+        context: context, 
+        args: args,
+        continuous: (flags && flags.continuous) ? flags.continuous : false,
+        off: (flags && flags.off) ? flags.off : false,
+        on: (flags && flags.on) ? flags.on : true
+      });
+    }
+
     /* Watch to see when to fire events */
 
     window.addEventListener('resize', function() {
@@ -173,12 +208,13 @@
         if(checkViewport(key)) {
           if(!checkActiveBreakpoint(key)) {
             addActiveBreakpoint(key);
-            fireAllCallbacks(key);
+            fireOnCallbacks(key);
           } else {
             fireContinuousCallbacks(key);
           }
 
         } else {
+          if(checkActiveBreakpoint(key)) { fireOffCallbacks(key); }
           removeActiveBreakpoint(key);
         }
       }
@@ -221,6 +257,10 @@
         return ret_bp;
       },
 
+      getActiveBreakpoints: function() {
+        return activeBreakpoints;
+      },
+
       registerCallback: function(key, flags, callback, context) {
 
         var temp, args;
@@ -254,12 +294,7 @@
               return false;
             }
 
-            breakpoints[thisKey].callbacks.push({
-              func: callback,
-              context: context, 
-              args: args,
-              continuous: (flags && flags.continuous) ? flags.continuous : false
-            });
+            pushCallback(key[i], flags, callback, context, args);
 
           }
         } else {
@@ -269,63 +304,11 @@
             return false;
           }
 
-          breakpoints[key].callbacks.push({
-            func: callback,
-            context: context, 
-            args: args,
-            continuous: (flags && flags.continuous) ? flags.continuous : false
-          }); 
+          pushCallback(key, flags, callback, context, args);
 
         }
       },
-
-      /* DEPRECATED */
-      onBreakpoint: function(key, callback, context) {
-        var args = Array.prototype.slice.call(arguments, 3);
-
-        if(!key || !callback) {
-          console.log( 'Please provide needed paramters' );
-          return false;
-        }
-
-        context = context || null;
-
-        if(isArray(key)) {
-
-          var thisKey;
-
-          for(var i = 0, len = key.length; i < len; i++) {
-
-            thisKey = key[i];
-
-            if(!breakpoints[thisKey]) {
-              console.log('Breakpoint does not exist');
-              return false;
-            }
-
-            breakpoints[thisKey].callbacks.push({
-              func: callback,
-              context: context, 
-              args: args
-            });
-
-          }
-        } else {
-
-          if(!breakpoints[key]) {
-            console.log('Breakpoint does not exist');
-            return false;
-          }
-
-          breakpoints[key].callbacks.push({
-            func: callback,
-            context: context, 
-            args: args
-          }); 
-
-        }
-      },
-
+      
       fireCallbacks: fireAllCallbacks,
 
       fire: function(key, callback, context) {
