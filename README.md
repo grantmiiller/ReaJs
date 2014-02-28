@@ -54,6 +54,7 @@ Then using your breakpoint labels, you can execute functions if you are within a
 
 ## Methods
 
+*addBreakpoint*
 
 `Reajs.addBreakpoint` - Adds a new breakpoint to watch, pretty much the first thing you should do
   - Parameters
@@ -113,7 +114,7 @@ Reajs.fire('tablet', myCar.say, myCar, 'Hello!');
   // If browser window is between 601 and 850 pixels, outputs "Car says Hello!: honk honk"
 ```
   
-  
+
 
 `Reajs.checkViewport` - Checks if you are in the provided breakpoint and returns true if you are or false if not
   - Parameters
