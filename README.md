@@ -114,6 +114,8 @@ Reajs.fire('tablet', myCar.say, myCar, 'Hello!');
 ```
 
 
+
+
 `Reajs.checkViewport` - Checks if you are in the provided breakpoint and returns true if you are or false if not
   - Parameters
     - key : {string} - Name of the breakpoint
