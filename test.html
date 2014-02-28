@@ -12,28 +12,25 @@
   Reajs.addBreakpoint('tablet', {min: 601, max: 850});
   Reajs.addBreakpoint('mobile', {max: 600});
 
-  // Reajs.onBreakpoint('desktop', function(herp) {
-  //   console.log('On Desktop' + herp);
-  // }, null, "Woo");
-
   function Car() {
     this.goes = "honk honk";
 
-    this.say = function(input, input2) {
-      var myinput = null;
-      if(screen.innerWidth <= 600) {myinput = 'mobile'; }
-      else if (screen.innerWidth >= 850) { myinput = 'desktop'; }
-      else { myinput = 'tablet'; }
-
-      console.log(Reajs.getActiveBreakpoints());
-      console.log("Car says " + input + ' ' + myinput + ": " + this.goes);
+    this.say = function(input) {
+      console.log("Car says " + input + ": " + this.goes);
     };
   }
 
   var myCar = new Car();
 
-  // Reajs.registerCallback(['mobile', 'desktop'], myCar.say, myCar, "crap", "blarg");
-  Reajs.registerCallback('tablet', {on: true, off: true, continuous: true}, myCar.say, myCar, 'Bien Venidos');
+  Reajs.fire('tablet', myCar.say, myCar, 'Hello!');
+
+  Reajs.registerCallback('mobile', myCar.say, myCar, 'Success!');
+  // If entering the mobile breakpoint, outputs "Car says Success!: honk honk"
+
+  // Flags are optional (2nd paramter). If none are set, defaults to callbacks firing once when entering breakpoint
+  Reajs.registerCallback('desktop', {off: true },  myCar.say, myCar, 'we just left desktop!');
+  // If leaving the desktop breakpoint, outputs "Car says we just left desktop!: honk honk"
+
 </script>
 </body>
 </html>
