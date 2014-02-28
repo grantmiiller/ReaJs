@@ -54,7 +54,7 @@ Then using your breakpoint labels, you can execute functions if you are within a
 
 ## Methods
 
-*addBreakpoint*
+**addBreakpoint**
 
 `Reajs.addBreakpoint` - Adds a new breakpoint to watch, pretty much the first thing you should do
   - Parameters
@@ -68,6 +68,7 @@ Example:
   Reajs.addBreakpoint('mobile', {max: 600});
 ```
 
+**getBreakpoints**
 
 `Reajs.getBreakpoints` - Returns an array of all breakpoint labels
 
@@ -77,9 +78,12 @@ Example:
   // ['desktop','tablet','mobile']
 ```
 
-      
+**getActiveBreakpoints**
+  
 `Reajs.getActiveBreakpoints` - Returns an array of all active breakpoint labels
 
+
+**registerCallback**
 
 `Reajs.registerCallback` - Adds a callback to the passed breakpoint
   - Paramters
@@ -100,6 +104,7 @@ Example:
   // If entering the mobile breakpoint, outputs "Car says Success!: honk honk"
 ```
 
+**fire**
 
 `Reajs.fire` - Fires a callback if in the provided breakpoint
   - Paramters
@@ -114,7 +119,7 @@ Reajs.fire('tablet', myCar.say, myCar, 'Hello!');
   // If browser window is between 601 and 850 pixels, outputs "Car says Hello!: honk honk"
 ```
   
-
+**checkViewport**
 
 `Reajs.checkViewport` - Checks if you are in the provided breakpoint and returns true if you are or false if not
   - Parameters
@@ -124,6 +129,8 @@ Example:
 ```
   Rea.js.checkViewport('tablet');
 ```
+
+**forceViewportCheck**
 
 `Reajs.forceViewportCheck` - Forces a check on the screen width
   -truthfully mostly used in testing
